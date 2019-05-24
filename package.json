@@ -1,0 +1,9 @@
+{
+  "name": "encounter-calculator",
+  "version": "1.0.0",
+  "description": "Calculate XP budgets for individual encounters and adventuring days",
+  "main": "index.js",
+  "repository": "https://github.com/maxwellskala/encounter-calculator",
+  "author": "Max Skala <maxwellskala@gmail.com>",
+  "license": "MIT"
+}
