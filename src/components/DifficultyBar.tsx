@@ -111,7 +111,12 @@ export default (props: DifficultyBarProps) => {
     <DifficultyBarWrapper>
       {Object.keys(thresholdMinMaxes).map((difficulty: Difficulty) => {
         const { min, max } = thresholdMinMaxes[difficulty];
-        const width = ((max - min) / totalWidth) * 100;
+        // eliminate gap between thresholds: a difficulty has a max XP
+        // of X and the next difficulty up has a max of X + 1, so there
+        // is a gap of 1 unit of XP in the visual (per threshold step)
+        // without this correction
+        const finalMax = difficulty !== 'deadly' ? max + 1 : max;
+        const width = ((finalMax - min) / totalWidth) * 100;
         const left = percentWidthTaken;
         percentWidthTaken += width;
         return (
