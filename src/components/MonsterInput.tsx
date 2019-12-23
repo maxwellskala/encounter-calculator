@@ -1,15 +1,13 @@
 import React, { FormEvent, useState, useEffect } from 'react';
 
-import calculateMonsterXP from '../util/calculateMonsterXP';
-
 interface MonsterInputProps {
   id: number;
   onRemove(id: number): void;
-  onXPChange(id: number, newXP: number): void;
+  onChange(id: number, newCount: number, newCR: string): void;
 }
 
 export default (props: MonsterInputProps) => {
-  const { id, onRemove, onXPChange } = props;
+  const { id, onRemove, onChange } = props;
 
   const [count, setCount] = useState<number>(0);
   const [CR, setCR] = useState<string>('0');
@@ -21,7 +19,7 @@ export default (props: MonsterInputProps) => {
   const handleRemove = () => onRemove(id);
 
   useEffect(() => {
-    onXPChange(id, calculateMonsterXP(count, CR));
+    onChange(id, count, CR);
   }, [count, CR]);
   return (
     <div>

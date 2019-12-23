@@ -1,53 +1,67 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import {
+  calculateMonsterXP,
+  getMonsterMultiplier,
+  dataByInput,
+} from '../util/calculateMonsterXP';
 import MonsterInput from './MonsterInput';
 
-const getTotalXP = (xpByInput: xpByInput) =>
-  Object.keys(xpByInput).reduce((acc: number, key: string) => {
-    return acc + xpByInput[key];
+const getBaseXP = (dataByInput: dataByInput) =>
+  Object.keys(dataByInput).reduce((acc: number, key: string) => {
+    const { count, CR } = dataByInput[key];
+    return acc + calculateMonsterXP(count, CR);
   }, 0);
+
+const getTotalXP = (dataByInput: dataByInput) => {
+  const baseXP = getBaseXP(dataByInput);
+  const multiplier = getMonsterMultiplier(dataByInput);
+  return baseXP * multiplier;
+};
 
 interface EncounterMonsterPanelProps {
   onMonsterXPChange(newXPTotal: number): void;
-}
-
-interface xpByInput {
-  [inputId: string]: number;
 }
 
 export default (props: EncounterMonsterPanelProps) => {
   const { onMonsterXPChange } = props;
 
   const [currentInputId, setCurrentInputId] = useState<number>(1);
-  const [xpByInput, setXPByIput] = useState<xpByInput>({ [currentInputId]: 0 });
+  const [dataByInput, setDataByInput] = useState<dataByInput>({
+    [currentInputId]: { count: 0, CR: '0' },
+  });
 
-  const handleInputXPChange = (inputId: number, newTotal: number) => {
-    xpByInput[inputId] = newTotal;
-    setXPByIput(xpByInput);
+  const handleInputChange = (
+    inputId: number,
+    newCount: number,
+    newCR: string,
+  ) => {
+    dataByInput[inputId] = { count: newCount, CR: newCR };
+    setDataByInput(dataByInput);
 
-    onMonsterXPChange(getTotalXP(xpByInput));
+    onMonsterXPChange(getTotalXP(dataByInput));
   };
 
   const handleAddInput = () => {
     const newId = currentInputId + 1;
-    xpByInput[newId] = 0;
-    setXPByIput(xpByInput);
+    dataByInput[newId] = { count: 0, CR: '0' };
+    setDataByInput(dataByInput);
     setCurrentInputId(newId);
   };
   const handleRemoveInput = (id: number) => {
-    delete xpByInput[id];
-    setXPByIput(xpByInput);
+    delete dataByInput[id];
+    setDataByInput(dataByInput);
 
-    onMonsterXPChange(getTotalXP(xpByInput));
+    onMonsterXPChange(getTotalXP(dataByInput));
   };
   return (
     <div>
-      {Object.keys(xpByInput).map(inputId => (
+      {Object.keys(dataByInput).map(inputId => (
         <MonsterInput
           key={inputId}
           id={parseInt(inputId, 10)}
           onRemove={handleRemoveInput}
-          onXPChange={handleInputXPChange}
+          onChange={handleInputChange}
         />
       ))}
       <button onClick={handleAddInput}>Add row</button>

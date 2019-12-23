@@ -2,6 +2,15 @@ type crToXPMap = {
   [key: string]: number;
 };
 
+type inputData = {
+  count: number;
+  CR: string;
+};
+
+export interface dataByInput {
+  [inputId: string]: inputData;
+}
+
 const CR_TO_XP: crToXPMap = {
   '0': 0,
   '1/8': 25,
@@ -26,10 +35,40 @@ const CR_TO_XP: crToXPMap = {
   '17': 18000,
   '18': 20000,
   '19': 22000,
-  '20': 25000
+  '20': 25000,
 };
 
-export default (count: number, CR: string) => {
+export const calculateMonsterXP = (count: number, CR: string): number => {
   const xpPerPmonster = CR_TO_XP[CR];
   return xpPerPmonster * count;
+};
+
+export const getMonsterMultiplier = (dataByInput: dataByInput): number => {
+  const totalMonsterCount = Object.keys(dataByInput).reduce(
+    (acc: number, key: string) => {
+      return acc + dataByInput[key].count;
+    },
+    0,
+  );
+
+  if (totalMonsterCount < 1) {
+    return 0;
+  }
+  if (totalMonsterCount === 1) {
+    return 1;
+  }
+  if (totalMonsterCount === 2) {
+    return 1.5;
+  }
+  if (3 <= totalMonsterCount && totalMonsterCount <= 6) {
+    return 2;
+  }
+  if (7 <= totalMonsterCount && totalMonsterCount <= 10) {
+    return 2.5;
+  }
+  if (11 <= totalMonsterCount && totalMonsterCount <= 14) {
+    return 3;
+  } else {
+    return 4;
+  }
 };
