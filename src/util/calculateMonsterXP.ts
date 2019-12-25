@@ -7,7 +7,7 @@ type inputData = {
   CR: string;
 };
 
-export interface dataByInput {
+export interface DataByInput {
   [inputId: string]: inputData;
 }
 
@@ -43,7 +43,7 @@ export const calculateMonsterXP = (count: number, CR: string): number => {
   return xpPerPmonster * count;
 };
 
-export const getMonsterMultiplier = (dataByInput: dataByInput): number => {
+export const getMonsterMultiplier = (dataByInput: DataByInput): number => {
   const totalMonsterCount = Object.keys(dataByInput).reduce(
     (acc: number, key: string) => {
       return acc + dataByInput[key].count;

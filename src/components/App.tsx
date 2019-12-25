@@ -4,7 +4,7 @@ import { xpThreshold } from '../util/calculatePartyXPThresholds';
 import DifficultyBar from './DifficultyBar';
 import Encounter from './Encounter';
 
-export default () => {
+const App = (): JSX.Element => {
   const [monsterXPBudget, setMonsterXPBudget] = useState<number>(0);
   const [
     characterXPThresholds,
@@ -42,3 +42,5 @@ export default () => {
     </div>
   );
 };
+
+export default App;
