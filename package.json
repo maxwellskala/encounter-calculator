@@ -9,7 +9,7 @@
   "scripts": {
     "build": "webpack",
     "prettier:write": "yarn prettier --write ./src/**/*.{ts,tsx}",
-    "eslint:check": "eslint ./src/**/*.{ts,tsx}",
+    "lint": "eslint ./src/**/*.{ts,tsx}",
     "start:dev": "webpack-dev-server"
   },
   "devDependencies": {

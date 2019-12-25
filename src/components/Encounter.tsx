@@ -21,7 +21,7 @@ interface EncounterProps {
   onMonsterXPChange(newXPTotal: number): void;
 }
 
-export default (props: EncounterProps) => {
+const Encounter = (props: EncounterProps): JSX.Element => {
   const { onCharacterXPChange, onMonsterXPChange } = props;
 
   const [charCount, setCharCount] = useState<number>(1);
@@ -74,3 +74,5 @@ export default (props: EncounterProps) => {
     </EncounterWrapper>
   );
 };
+
+export default Encounter;

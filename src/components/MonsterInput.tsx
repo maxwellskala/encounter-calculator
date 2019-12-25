@@ -6,17 +6,17 @@ interface MonsterInputProps {
   onChange(id: number, newCount: number, newCR: string): void;
 }
 
-export default (props: MonsterInputProps) => {
+const MonsterInput = (props: MonsterInputProps): JSX.Element => {
   const { id, onRemove, onChange } = props;
 
   const [count, setCount] = useState<number>(0);
   const [CR, setCR] = useState<string>('0');
 
-  const handleCountChange = (evt: FormEvent<HTMLInputElement>) =>
+  const handleCountChange = (evt: FormEvent<HTMLInputElement>): void =>
     setCount(parseInt(evt.currentTarget.value, 10));
-  const handleCRChange = (evt: FormEvent<HTMLInputElement>) =>
+  const handleCRChange = (evt: FormEvent<HTMLInputElement>): void =>
     setCR(evt.currentTarget.value);
-  const handleRemove = () => onRemove(id);
+  const handleRemove = (): void => onRemove(id);
 
   useEffect(() => {
     onChange(id, count, CR);
@@ -32,3 +32,5 @@ export default (props: MonsterInputProps) => {
     </div>
   );
 };
+
+export default MonsterInput;

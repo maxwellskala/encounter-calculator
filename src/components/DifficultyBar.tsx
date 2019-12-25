@@ -22,12 +22,12 @@ interface DifficultyBarSectionProps {
 }
 
 const DifficultyBarSection = styled.div`
-  background-color: ${(props: DifficultyBarSectionProps) =>
+  background-color: ${(props: DifficultyBarSectionProps): string =>
     DIFFICULTY_TO_COLOR[props.difficulty]};
   height: 100%;
-  left: ${(props: DifficultyBarSectionProps) => props.left}%;
+  left: ${(props: DifficultyBarSectionProps): number => props.left}%;
   position: absolute;
-  width: ${(props: DifficultyBarSectionProps) => props.width}%;
+  width: ${(props: DifficultyBarSectionProps): number => props.width}%;
 `;
 
 interface DifficultyBarLabelProps {
@@ -36,7 +36,7 @@ interface DifficultyBarLabelProps {
 
 const DifficultyBarLabel = styled.p`
   bottom: 0;
-  left: ${(props: DifficultyBarLabelProps) => props.left}%;
+  left: ${(props: DifficultyBarLabelProps): number => props.left}%;
   position: absolute;
 `;
 
@@ -48,7 +48,7 @@ const DifficultyBarIndicator = styled.div`
   background-color: #000;
   bottom: 0;
   height: 100%;
-  left: ${(props: DifficultyBarLabelProps) => props.left}%;
+  left: ${(props: DifficultyBarLabelProps): number => props.left}%;
   position: absolute;
   width: 1px;
 `;
@@ -91,7 +91,7 @@ interface DifficultyBarProps {
   partyXPThresholds: xpThreshold;
 }
 
-export default (props: DifficultyBarProps) => {
+const DifficultyBar = (props: DifficultyBarProps): JSX.Element => {
   const { monsterXP, partyXPThresholds } = props;
   if (!partyXPThresholds) {
     return null;
@@ -137,3 +137,5 @@ export default (props: DifficultyBarProps) => {
     </DifficultyBarWrapper>
   );
 };
+
+export default DifficultyBar;
