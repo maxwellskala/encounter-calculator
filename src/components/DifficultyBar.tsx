@@ -99,7 +99,7 @@ const DifficultyBar = (props: DifficultyBarProps): JSX.Element => {
     thresholdMinMaxes['deadly']['max'] - thresholdMinMaxes['easy']['min'];
   let percentWidthTaken = 0;
   const xpBudgetPercent =
-    (monsterXP / thresholdMinMaxes['deadly']['max']) * 100;
+    ((monsterXP - thresholdMinMaxes['easy']['min']) / totalWidth) * 100;
 
   return (
     <DifficultyBarWrapper>
