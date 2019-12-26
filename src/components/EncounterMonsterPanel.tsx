@@ -23,7 +23,9 @@ interface EncounterMonsterPanelProps {
   onMonsterXPChange(newXPTotal: number): void;
 }
 
-export default (props: EncounterMonsterPanelProps): JSX.Element => {
+const MonsterEncounterPanel = (
+  props: EncounterMonsterPanelProps,
+): JSX.Element => {
   const { onMonsterXPChange } = props;
 
   const [currentInputId, setCurrentInputId] = useState<number>(1);
@@ -49,22 +51,37 @@ export default (props: EncounterMonsterPanelProps): JSX.Element => {
     setCurrentInputId(newId);
   };
   const handleRemoveInput = (id: number): void => {
-    delete dataByInput[id];
-    setDataByInput(dataByInput);
+    // circumvent Object reference equality despite different keys
+    const updatedDataByInput = { ...dataByInput };
+    delete updatedDataByInput[id];
+    setDataByInput(updatedDataByInput);
 
     onMonsterXPChange(getTotalXP(dataByInput));
   };
   return (
-    <div>
-      {Object.keys(dataByInput).map(inputId => (
-        <MonsterInput
-          key={inputId}
-          id={parseInt(inputId, 10)}
-          onRemove={handleRemoveInput}
-          onChange={handleInputChange}
-        />
-      ))}
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th>Monster count</th>
+            <th>CR</th>
+            <th />
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(dataByInput).map(inputId => (
+            <MonsterInput
+              key={inputId}
+              id={parseInt(inputId, 10)}
+              onRemove={handleRemoveInput}
+              onChange={handleInputChange}
+            />
+          ))}
+        </tbody>
+      </table>
       <button onClick={handleAddInput}>Add row</button>
-    </div>
+    </>
   );
 };
+
+export default MonsterEncounterPanel;

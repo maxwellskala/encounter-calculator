@@ -38,6 +38,8 @@ const CR_TO_XP: crToXPMap = {
   '20': 25000,
 };
 
+export const CR_LIST = Object.keys(CR_TO_XP);
+
 export const calculateMonsterXP = (count: number, CR: string): number => {
   const xpPerPmonster = CR_TO_XP[CR];
   return xpPerPmonster * count;

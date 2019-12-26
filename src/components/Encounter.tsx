@@ -4,16 +4,18 @@ import styled from 'styled-components';
 import calculatePartyXPThresholds, {
   xpThreshold,
 } from '../util/calculatePartyXPThresholds';
+import InlineInput from './styled/InlineInput';
 import EncounterMonsterPanel from './EncounterMonsterPanel';
 
 const EncounterWrapper = styled.div`
-  display: flex;
+  display: inline-flex;
   justify-content: center;
+  width: 100%;
 `;
 
 const EncounterColumn = styled.div`
-  border: 1px solid red;
-  margin: 0 3% 0 5%;
+  margin: 0 3% 0 3%;
+  min-width: 250px;
 `;
 
 interface EncounterProps {
@@ -45,27 +47,34 @@ const Encounter = (props: EncounterProps): JSX.Element => {
     <EncounterWrapper>
       <EncounterColumn>
         <h2>Party</h2>
-        <form>
-          <label>
-            <input
-              name="charCount"
-              onChange={handleCharCountChange}
-              type="text"
-              value={charCount}
-            />
-            characters
-          </label>
-          of
-          <label>
-            level
-            <input
-              name="charLevel"
-              onChange={handleCharLevelChange}
-              type="text"
-              value={charLevel}
-            />
-          </label>
-        </form>
+        <table>
+          <thead>
+            <tr>
+              <th>Character count</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <InlineInput
+                  name="charCount"
+                  onChange={handleCharCountChange}
+                  type="text"
+                  value={charCount}
+                />
+              </td>
+              <td>
+                <InlineInput
+                  name="charLevel"
+                  onChange={handleCharLevelChange}
+                  type="text"
+                  value={charLevel}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </EncounterColumn>
       <EncounterColumn>
         <h2>Monsters</h2>
