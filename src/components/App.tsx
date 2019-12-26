@@ -1,8 +1,33 @@
 import React, { useCallback, useState } from 'react';
+import styled, { createGlobalStyle } from 'styled-components';
 
-import { xpThreshold } from '../util/calculatePartyXPThresholds';
+import { DIFFICULTY_TO_COLOR } from '../lib/constants';
+import { Difficulty, xpThreshold } from '../util/calculatePartyXPThresholds';
 import DifficultyBar from './DifficultyBar';
 import Encounter from './Encounter';
+
+const CSSReset = createGlobalStyle`
+  body {
+    background-color: #f2e0ab;
+    margin: 0;
+    padding: 8px;
+  }
+`;
+
+const AppWrapper = styled.div`
+  height: 100%;
+`;
+
+interface DifficultyLabelProps {
+  difficulty: Difficulty;
+}
+
+const DifficultyLabel = styled.p`
+  color: ${(props: DifficultyLabelProps): string =>
+    DIFFICULTY_TO_COLOR[props.difficulty]};
+  display: inline-block;
+  margin: 5px 0 5px 0;
+`;
 
 const App = (): JSX.Element => {
   const [monsterXPBudget, setMonsterXPBudget] = useState<number>(0);
@@ -19,27 +44,35 @@ const App = (): JSX.Element => {
     [setCharacterXPThresholds],
   );
   return (
-    <div>
-      <h1>Enter encounter details</h1>
-      <h4>Encounter difficulty targets:</h4>
-      <div>
-        {characterXPThresholds &&
-          Object.keys(characterXPThresholds).map(difficulty => (
-            <div key={difficulty}>
-              {difficulty}: {characterXPThresholds[difficulty]}
-            </div>
-          ))}
-      </div>
-      <Encounter
-        onCharacterXPChange={handleCharacterXPChange}
-        onMonsterXPChange={handleMonsterXPChange}
-      />
-      <h4>Current XP budget: {monsterXPBudget}</h4>
-      <DifficultyBar
-        monsterXP={monsterXPBudget}
-        partyXPThresholds={characterXPThresholds}
-      />
-    </div>
+    <>
+      <CSSReset />
+      <AppWrapper>
+        <h1>Enter encounter details</h1>
+        <Encounter
+          onCharacterXPChange={handleCharacterXPChange}
+          onMonsterXPChange={handleMonsterXPChange}
+        />
+        <h4>Encounter difficulty targets:</h4>
+        <div>
+          {characterXPThresholds &&
+            Object.keys(characterXPThresholds).map(
+              (difficulty: Difficulty): JSX.Element => (
+                <div key={difficulty}>
+                  <DifficultyLabel difficulty={difficulty}>
+                    {difficulty}
+                  </DifficultyLabel>
+                  : {characterXPThresholds[difficulty]}
+                </div>
+              ),
+            )}
+        </div>
+        <h4>Current XP budget: {monsterXPBudget}</h4>
+        <DifficultyBar
+          monsterXP={monsterXPBudget}
+          partyXPThresholds={characterXPThresholds}
+        />
+      </AppWrapper>
+    </>
   );
 };
 

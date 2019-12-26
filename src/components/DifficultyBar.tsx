@@ -1,19 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
+import { DIFFICULTY_TO_COLOR } from '../lib/constants';
 import { Difficulty, xpThreshold } from '../util/calculatePartyXPThresholds';
 
 const DifficultyBarWrapper = styled.div`
   height: 50px;
   position: relative;
 `;
-
-const DIFFICULTY_TO_COLOR = {
-  easy: 'green',
-  medium: 'yellow',
-  hard: 'orange',
-  deadly: 'red',
-};
 
 interface DifficultyBarSectionProps {
   difficulty: Difficulty;
@@ -120,17 +114,14 @@ const DifficultyBar = (props: DifficultyBarProps): JSX.Element => {
         const left = percentWidthTaken;
         percentWidthTaken += width;
         return (
-          <>
+          <Fragment key={`section=${difficulty}`}>
             <DifficultyBarSection
-              key={`section-${difficulty}`}
               difficulty={difficulty}
               left={left}
               width={width}
             />
-            <DifficultyBarLabel key={`label-${difficulty}`} left={left}>
-              {min}
-            </DifficultyBarLabel>
-          </>
+            <DifficultyBarLabel left={left}>{min}</DifficultyBarLabel>
+          </Fragment>
         );
       })}
       <DifficultyBarIndicator left={xpBudgetPercent} />
