@@ -49,8 +49,10 @@ export default (props: EncounterMonsterPanelProps): JSX.Element => {
     setCurrentInputId(newId);
   };
   const handleRemoveInput = (id: number): void => {
-    delete dataByInput[id];
-    setDataByInput(dataByInput);
+    // circumvent Object reference equality despite different keys
+    const updatedDataByInput = { ...dataByInput };
+    delete updatedDataByInput[id];
+    setDataByInput(updatedDataByInput);
 
     onMonsterXPChange(getTotalXP(dataByInput));
   };
