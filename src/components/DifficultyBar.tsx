@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { DIFFICULTY_TO_COLOR } from '../lib/constants';
 import { Difficulty, xpThreshold } from '../util/calculatePartyXPThresholds';
+import DifficultyBarIndicator from './DifficultyBarIndicator';
 
 const DifficultyBarWrapper = styled.div`
   height: 50px;
@@ -32,19 +33,6 @@ const DifficultyBarLabel = styled.p`
   bottom: 0;
   left: ${(props: DifficultyBarLabelProps): number => props.left}%;
   position: absolute;
-`;
-
-interface DifficultyBarIndicatorProps {
-  left: number;
-}
-
-const DifficultyBarIndicator = styled.div`
-  background-color: #000;
-  bottom: 0;
-  height: 100%;
-  left: ${(props: DifficultyBarLabelProps): number => props.left}%;
-  position: absolute;
-  width: 1px;
 `;
 
 type MinMax = {
@@ -121,7 +109,10 @@ const DifficultyBar = (props: DifficultyBarProps): JSX.Element => {
           </Fragment>
         );
       })}
-      <DifficultyBarIndicator left={xpBudgetPercent} />
+      <DifficultyBarIndicator
+        monsterXP={monsterXP}
+        xpBudgetPercent={xpBudgetPercent}
+      />
     </DifficultyBarWrapper>
   );
 };

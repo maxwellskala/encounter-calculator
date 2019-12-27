@@ -15,7 +15,7 @@ const CSSReset = createGlobalStyle`
   body {
     background-color: #f2e0ab;
     margin: 0;
-    padding: 8px;
+    padding: 20px;
   }
 `;
 
