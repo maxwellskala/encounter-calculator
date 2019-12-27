@@ -87,9 +87,6 @@ interface DifficultyBarProps {
 
 const DifficultyBar = (props: DifficultyBarProps): JSX.Element => {
   const { monsterXP, partyXPThresholds } = props;
-  if (!partyXPThresholds) {
-    return null;
-  }
 
   const thresholdMinMaxes = calculateDifficultyMinMaxes(
     partyXPThresholds,

@@ -104,7 +104,10 @@ export type xpThreshold = {
   deadly: number;
 };
 
-export default (count: number, level: number): xpThreshold => {
+const calculatePartyXPThresholds = (
+  count: number,
+  level: number,
+): xpThreshold => {
   return {
     easy: LEVEL_TO_EASY_XP_THRESHOLD[level] * count,
     medium: LEVEL_TO_MEDIUM_XP_THRESHOLD[level] * count,
@@ -112,3 +115,7 @@ export default (count: number, level: number): xpThreshold => {
     deadly: LEVEL_TO_DEADLY_XP_THRESHOLD[level] * count,
   };
 };
+
+export const DEFAULT_THRESHOLD = calculatePartyXPThresholds(1, 1);
+
+export default calculatePartyXPThresholds;
