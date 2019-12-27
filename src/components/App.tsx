@@ -8,6 +8,7 @@ import {
   xpThreshold,
 } from '../util/calculatePartyXPThresholds';
 import DifficultyBar from './DifficultyBar';
+import DifficultyReadout from './DifficultyReadout';
 import Encounter from './Encounter';
 
 const CSSReset = createGlobalStyle`
@@ -71,6 +72,10 @@ const App = (): JSX.Element => {
         </div>
         <h4>Current XP budget: {monsterXPBudget}</h4>
         <DifficultyBar
+          monsterXP={monsterXPBudget}
+          partyXPThresholds={characterXPThresholds}
+        />
+        <DifficultyReadout
           monsterXP={monsterXPBudget}
           partyXPThresholds={characterXPThresholds}
         />
