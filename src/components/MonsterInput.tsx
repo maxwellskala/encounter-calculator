@@ -11,6 +11,7 @@ interface HideableTextProps {
 const HideableText = styled.p`
   opacity: ${(props: HideableTextProps): string =>
     props.isVisible ? '1' : '0'};
+  width: 150px;
 `;
 
 interface ValidatedInputProps {
@@ -35,25 +36,26 @@ const validateCR = (CR: string): boolean => {
 interface MonsterInputXPValueProps {
   count: string;
   CR: string;
+  isCountValid: boolean;
+  isCRValid: boolean;
   isInputHovered: boolean;
 }
 
 const MonsterInputXPValue = (
   props: MonsterInputXPValueProps,
 ): JSX.Element | null => {
-  const { count, CR, isInputHovered } = props;
+  const { count, CR, isCountValid, isCRValid, isInputHovered } = props;
 
-  const parsedCount = parseInt(count, 10);
-  if (isNaN(parsedCount) || !validateCR(CR)) {
-    return null;
+  let xpNote: string;
+  if (!isCountValid || !isCRValid) {
+    xpNote = 'Cannot calculate XP';
+  } else {
+    const parsedCount = parseInt(count, 10);
+    const xpValue = calculateMonsterXP(parsedCount, CR);
+    xpNote = `Base XP value: ${xpValue}`;
   }
 
-  const xpValue = calculateMonsterXP(parsedCount, CR);
-  return (
-    <HideableText isVisible={isInputHovered}>
-      Base XP value: {xpValue}
-    </HideableText>
-  );
+  return <HideableText isVisible={isInputHovered}>{xpNote}</HideableText>;
 };
 
 const MonsterInput = (props: MonsterInputProps): JSX.Element => {
@@ -121,7 +123,13 @@ const MonsterInput = (props: MonsterInputProps): JSX.Element => {
         <button onClick={handleRemove}>X</button>
       </td>
       <td>
-        <MonsterInputXPValue count={count} CR={CR} isInputHovered={isHovered} />
+        <MonsterInputXPValue
+          count={count}
+          CR={CR}
+          isCountValid={isCountValid}
+          isCRValid={isCRValid}
+          isInputHovered={isHovered}
+        />
       </td>
     </tr>
   );
