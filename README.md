@@ -40,3 +40,13 @@ Again with the "no yellow/in between color, so we're gonna give it to them".
 
 ## So?
 So since I have all this beef with existing solutions, I figured I should put my money where my mouth is and build something better. I think KFC will always have more features than whatever I wind up building and being happy with, but I'm definitely NOT trying to compete/steal users. I just wanted to code this up, both because I needed a project and because I figured it'd be a good way to get more familiar with the guts of the 5e engine.
+
+# Roadmap
+Sorry, no dates. Just a vague idea of what I want to accomplish.
+- [x] basic functionality
+  - [x] enter X characters of Y level and pit them against a combination of monsters-by-CR
+  - [x] show a sliding scale broken up by encounter difficulty for at-a-glance assessment of granular encounter difficulty
+- [ ] add ability to enter multiple encounters and see what % of a given party's daily XP budget is being fulfilled
+- [ ] prettification pass: let's make it more appealing once we have all the above done
+- [ ] oh, should probably deploy this at some point
+- [ ] add ability to have characters of different levels (n.b.: I think leveling up characters at different rates is shitty DMing, but I get that some people do it; this is super low-priority)
