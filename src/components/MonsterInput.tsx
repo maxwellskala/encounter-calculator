@@ -26,34 +26,52 @@ const validateCR = (CR: string): boolean => {
 const MonsterInput = (props: MonsterInputProps): JSX.Element => {
   const { id, onRemove, onChange } = props;
 
-  const [count, setCount] = useState<number>(0);
+  const [count, setCount] = useState<string>('0');
+  const [isCountValid, setIsCountValid] = useState<boolean>(true);
   const [CR, setCR] = useState<string>('0');
   const [isCRValid, setIsCRValid] = useState<boolean>(true);
 
-  const handleCountChange = (evt: FormEvent<HTMLInputElement>): void =>
-    setCount(parseInt(evt.currentTarget.value, 10));
-  const handleCRChange = (evt: FormEvent<HTMLInputElement>): void => {
-    setCR(evt.currentTarget.value);
+  const handleCountChange = (evt: FormEvent<HTMLInputElement>): void => {
+    const count: string = evt.currentTarget.value;
+    if (isNaN(parseInt(count, 10))) {
+      setIsCountValid(false);
+    } else {
+      setIsCountValid(true);
+    }
+    setCount(count);
   };
-  const handleRemove = (): void => onRemove(id);
-
-  useEffect(() => {
-    if (validateCR(CR)) {
-      onChange(id, count, CR);
+  const handleCRChange = (evt: FormEvent<HTMLInputElement>): void => {
+    const newCR = evt.currentTarget.value;
+    if (validateCR(newCR)) {
       setIsCRValid(true);
     } else {
       setIsCRValid(false);
     }
-  }, [count, CR]);
+    setCR(newCR);
+  };
+  const handleRemove = (): void => onRemove(id);
+
+  useEffect(() => {
+    if (isCountValid && isCRValid) {
+      const parsedCount = parseInt(count, 10);
+      onChange(id, parsedCount, CR);
+    }
+  }, [count, CR, isCountValid, isCRValid]);
   return (
     <tr>
       <td>
-        <InlineInput onChange={handleCountChange} type="text" value={count} />
+        <ValidatedInput
+          isValid={isCountValid}
+          onChange={handleCountChange}
+          type="text"
+          value={count}
+        />
       </td>
       <td>
         <ValidatedInput
           isValid={isCRValid}
           onChange={handleCRChange}
+          type="text"
           value={CR}
         />
       </td>
