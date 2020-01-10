@@ -55,9 +55,9 @@ const MonsterEncounterPanel = (
     const updatedDataByInput = { ...dataByInput };
     delete updatedDataByInput[id];
     setDataByInput(updatedDataByInput);
-
-    onMonsterXPChange(getTotalXP(dataByInput));
+    onMonsterXPChange(getTotalXP(updatedDataByInput));
   };
+
   return (
     <>
       <table>
