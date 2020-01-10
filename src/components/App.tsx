@@ -2,15 +2,20 @@ import React, { useCallback, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
 import { DIFFICULTY_TO_COLOR } from '../lib/constants';
-import { Difficulty, xpThreshold } from '../util/calculatePartyXPThresholds';
+import {
+  DEFAULT_THRESHOLD,
+  Difficulty,
+  xpThreshold,
+} from '../util/calculatePartyXPThresholds';
 import DifficultyBar from './DifficultyBar';
+import DifficultyReadout from './DifficultyReadout';
 import Encounter from './Encounter';
 
 const CSSReset = createGlobalStyle`
   body {
     background-color: #f2e0ab;
     margin: 0;
-    padding: 8px;
+    padding: 20px;
   }
 `;
 
@@ -31,10 +36,9 @@ const DifficultyLabel = styled.p`
 
 const App = (): JSX.Element => {
   const [monsterXPBudget, setMonsterXPBudget] = useState<number>(0);
-  const [
-    characterXPThresholds,
-    setCharacterXPThresholds,
-  ] = useState<xpThreshold | null>(null);
+  const [characterXPThresholds, setCharacterXPThresholds] = useState<
+    xpThreshold
+  >(DEFAULT_THRESHOLD);
   const handleMonsterXPChange = useCallback(
     (newXPValue: number) => setMonsterXPBudget(newXPValue),
     [setMonsterXPBudget],
@@ -68,6 +72,10 @@ const App = (): JSX.Element => {
         </div>
         <h4>Current XP budget: {monsterXPBudget}</h4>
         <DifficultyBar
+          monsterXP={monsterXPBudget}
+          partyXPThresholds={characterXPThresholds}
+        />
+        <DifficultyReadout
           monsterXP={monsterXPBudget}
           partyXPThresholds={characterXPThresholds}
         />
