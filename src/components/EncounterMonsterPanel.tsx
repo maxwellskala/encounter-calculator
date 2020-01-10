@@ -80,6 +80,7 @@ const MonsterEncounterPanel = (
         </tbody>
       </table>
       <button onClick={handleAddInput}>Add row</button>
+      <h3>Monster count multiplier: {getMonsterMultiplier(dataByInput)}</h3>
     </>
   );
 };
