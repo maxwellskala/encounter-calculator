@@ -26,22 +26,24 @@ interface EncounterProps {
 const Encounter = (props: EncounterProps): JSX.Element => {
   const { onCharacterXPChange, onMonsterXPChange } = props;
 
-  const [charCount, setCharCount] = useState<number>(1);
-  const [charLevel, setCharLevel] = useState<number>(1);
+  const [charCount, setCharCount] = useState<string>('1');
+  const [charLevel, setCharLevel] = useState<string>('1');
 
   const handleCharCountChange = useCallback(
-    (evt: FormEvent<HTMLInputElement>) =>
-      setCharCount(parseInt(evt.currentTarget.value, 10)),
+    (evt: FormEvent<HTMLInputElement>) => setCharCount(evt.currentTarget.value),
     [setCharCount],
   );
   const handleCharLevelChange = useCallback(
-    (evt: FormEvent<HTMLInputElement>) =>
-      setCharLevel(parseInt(evt.currentTarget.value)),
+    (evt: FormEvent<HTMLInputElement>) => setCharLevel(evt.currentTarget.value),
     [setCharLevel],
   );
 
   useEffect(() => {
-    onCharacterXPChange(calculatePartyXPThresholds(charCount, charLevel));
+    const parsedCount = parseInt(charCount, 10);
+    const parsedLevel = parseInt(charLevel, 10);
+    if (!isNaN(parsedCount) && !isNaN(parsedLevel)) {
+      onCharacterXPChange(calculatePartyXPThresholds(parsedCount, parsedLevel));
+    }
   }, [charCount, charLevel]);
   return (
     <EncounterWrapper>
