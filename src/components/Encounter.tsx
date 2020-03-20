@@ -4,6 +4,12 @@ import styled from 'styled-components';
 import calculatePartyXPThresholds, {
   xpThreshold,
 } from '../util/calculatePartyXPThresholds';
+import {
+  getPersistedCharCount,
+  getPersistedCharLevel,
+  persistCharCount,
+  persistCharLevel,
+} from '../util/localStorage';
 import InlineInput from './styled/InlineInput';
 import EncounterMonsterPanel from './EncounterMonsterPanel';
 
@@ -29,12 +35,32 @@ const Encounter = (props: EncounterProps): JSX.Element => {
   const [charCount, setCharCount] = useState<string>('1');
   const [charLevel, setCharLevel] = useState<string>('1');
 
+  useEffect(() => {
+    const savedCharCount = getPersistedCharCount();
+    if (savedCharCount !== charCount) {
+      setCharCount(savedCharCount);
+    }
+
+    const savedCharLevel = getPersistedCharLevel();
+    if (savedCharLevel !== charLevel) {
+      setCharLevel(savedCharLevel);
+    }
+  }, []);
+
   const handleCharCountChange = useCallback(
-    (evt: FormEvent<HTMLInputElement>) => setCharCount(evt.currentTarget.value),
+    (evt: FormEvent<HTMLInputElement>) => {
+      const newCount = evt.currentTarget.value;
+      setCharCount(newCount);
+      persistCharCount(newCount);
+    },
     [setCharCount],
   );
   const handleCharLevelChange = useCallback(
-    (evt: FormEvent<HTMLInputElement>) => setCharLevel(evt.currentTarget.value),
+    (evt: FormEvent<HTMLInputElement>) => {
+      const newLevel = evt.currentTarget.value;
+      setCharLevel(newLevel);
+      persistCharLevel(newLevel);
+    },
     [setCharLevel],
   );
 
